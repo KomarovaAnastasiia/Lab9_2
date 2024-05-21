@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <algorithm>
+#include <iterator>
+
+int main() {
+    // Ввід данних
+    std::vector<int> V = {5, 3, 8, 6, 2, 7, 4, 3, 6};
+
+    if (V.size() < 3) {
+        std::cerr << "Vector must contain at least three different elements." << std::endl;
+        return 1;
+    }
+
+    // Знайти мінімальний та максимальний елементи
+    int minElement = *std::min_element(V.begin(), V.end());
+    int maxElement = *std::max_element(V.begin(), V.end());
+
+    // Створити мультимножину та заповнити його елементами вектора
+    std::multiset<int> mset(V.begin(), V.end());
+
+    // Виведення всіх елементів, крім мінімального та максимального
+    std::cout << "Elements except min and max in sorted order:" << std::endl;
+
+    // Використовувати ітератори lower_bound та upper_bound для пошуку діапазону
+    auto lower = mset.upper_bound(minElement);
+    auto upper = mset.lower_bound(maxElement);
+
+    // Копіювати елементи з діапазону вихідного потоку
+    std::copy(lower, upper, std::ostream_iterator<int>(std::cout, " "));
+    std::cout << std::endl;
+
+    return 0;
+}
